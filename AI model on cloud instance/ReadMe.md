@@ -13,6 +13,7 @@ Prerequisite:
 The first thing we have to do is **launch a GPU-enabled EC2 instance on AWS**. I went with an AWS EC2 AMI with GPU support, Deep Learning AMI (Ubuntu) with instance type 'g4dn.xlarge'. It's cost-effective for this simple project. (Hint: I like to use the *Pricing Calculator* to estimate the monthly charges for my services). 
 
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/AI%20model%20on%20cloud%20instance/Ubuntu%20AMI.png?raw=true)
+
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/AI%20model%20on%20cloud%20instance/EC2%20instance%20type.png?raw=true)
 
 <h2>2. Install Docker</h2>
