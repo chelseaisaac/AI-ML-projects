@@ -175,9 +175,10 @@ Run the test script:
 <code>python test_resnet50.py</code>
 
 So my output was this:
+
 <code>[(258, 87.32960510253906), (259, 3.027086019515991), (270, 1.9671134948730469), (261, 1.1073544025421143), (248, 0.9204240441322327)]</code>
 
-This model is highly confident, at nearly 87.33%, that the input belongs to class 258. Checking IMAGENET, class 258 is a Samoyed. 
+**Translation**: This model is highly confident, at nearly 87.33%, that the input belongs to class 258. Checking IMAGENET, class 258 is a Samoyed. 
 
 It works!
 
