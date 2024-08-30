@@ -45,7 +45,7 @@ Add the user to the docker group:
 
 My username is *ubuntu* and so for me, it would be: <code>sudo usermod -aG docker ubuntu</code>
 
-*I had to reboot my instance for the changes to take effect.* 
+(*I had to reboot my instance for the changes to take effect.*)
 
 To test the Docker installation, we simply run the following code:
 
@@ -65,7 +65,7 @@ We'll need to pull the model's Docker container from the NGC registry.
 
 <code>docker pull nvcr.io/nvidia/pytorch:24.08-py3</code>
 
-*At this point, my EC2 instance ran out of EBS storage. I guess the initial amount I set up of 8GB was not enough so I increased it to 40GB.*
+*(At this point, my EC2 instance ran out of EBS storage. I guess the initial amount I set up of 8GB was not enough so I increased it to 40GB.)*
 
 
 List the Docker images to confirm the container was pulled. 
