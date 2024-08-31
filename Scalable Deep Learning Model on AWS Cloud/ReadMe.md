@@ -163,7 +163,7 @@ dataset = load_dataset('imdb')
 # Tokenize the training data using BERT's tokenizer (converts text into a format that BERT expects)
 train_dataset = dataset['train'].map(lambda e: tokenizer(e['text'], truncation=True, padding='max_length'), batched=True)
 
-# Convert the tokenized datasets into PyTorch tensors
+# Convert the tokenized datasets into PyTorch tensors (the fundamental data structure in PyTorch)
 train_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label'])
 
 # Define training arguments. We'll train the model for 3 epochs
