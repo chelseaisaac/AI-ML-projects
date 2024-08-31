@@ -51,11 +51,9 @@ No need to restart the EC2 instance as the changes to security group rules go in
 
 # Let's install our NVIDIA AI Enterprise Tools
 
-Install **NVIDIA Triton Inference Server**:
+Install **NVIDIA Triton Inference Server**. *We'll use it to optimize and serve our machine learning model.*
 
 <code>docker pull nvcr.io/nvidia/tritonserver:22.12-py3</code>
-
-We'll use it to optimize and serve our machine learning model. 
 
 Let's deploy a simple model on Triton Inference Server and run a test inference to validate the setup:
 
