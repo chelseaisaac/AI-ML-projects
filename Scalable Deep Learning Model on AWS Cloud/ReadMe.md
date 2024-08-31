@@ -51,7 +51,7 @@ No need to restart the EC2 instance as the changes to security group rules go in
 
 # Let's install our NVIDIA AI Enterprise Tools
 
-Install NVIDIA Triton Inference Server:
+Install **NVIDIA Triton Inference Server**:
 
 <code>docker pull nvcr.io/nvidia/tritonserver:22.12-py3</code>
 
@@ -67,7 +67,7 @@ My container does not have a <code>/models</code> directory so I tried starting 
 
 Success! 
 
-Install RAPIDS for Data Science Workloads. *It'll give us GPU-accelerated data science libraries.*
+Install **RAPIDS for Data Science Workloads**. *It'll give us GPU-accelerated data science libraries.*
 
 <code>docker pull rapidsai/notebooks:24.10a-cuda12.5-py3.11</code>
 
@@ -115,7 +115,7 @@ Navigate to <code>http://(EC2 Public IP):8888/?token=<some_long_string_of_charac
 
 You can use <code>conda deactivate</code> to exit the environment. 
 
-Install TensorRT for inference acceleration:
+Install **TensorRT** for inference acceleration:
 
 <code>sudo apt install tensorrt</code>
 
