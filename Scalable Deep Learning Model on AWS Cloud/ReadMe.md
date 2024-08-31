@@ -113,7 +113,7 @@ Navigate to <code>http://(EC2 Public IP):8888/?token=<some_long_string_of_charac
 
 <!-- You can use <code>conda deactivate</code> to exit the environment. -->
 
-Install **TensorRT** for inference acceleration:
+Install **TensorRT** for inference acceleration: *TensorRT is an ecosystem of APIs for high-performance deep learning inference.*
 
 <code>sudo apt install tensorrt</code>
 
