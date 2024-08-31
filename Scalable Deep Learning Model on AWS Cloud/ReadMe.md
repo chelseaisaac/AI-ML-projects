@@ -57,6 +57,9 @@ Ensure GPU support is enabled by installing NVIDIA device plugin for Kubernetes:
 
 <code>kubectl apply -f https://github.com/NVIDIA/k8s-device-plugin/blob/master/nvidia-device-plugin.yml</code>
 
+Configure node groups with GPU instances to serve as the worker nodes in your cluster.
+
+
 # Let's install our NVIDIA AI Enterprise Tools
 
 Install **NVIDIA Triton Inference Server**. *We'll use it to optimize and serve our machine learning model.*
