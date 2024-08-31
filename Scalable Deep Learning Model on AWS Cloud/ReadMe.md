@@ -139,6 +139,10 @@ We'll install PyTorch and Transformers.
 
 <code>pip install torch transformers datasets</code>
 
+Update the Accelerate library:
+
+<code>pip install accelerate -U</code>
+
 We'll use the pre-trained BERT model from Hugging Face's Transformers Library and run some python code:
 
 ```
