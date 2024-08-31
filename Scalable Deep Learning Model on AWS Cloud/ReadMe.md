@@ -85,7 +85,7 @@ chmod +x Miniconda3-latest-Linux-x86_64.sh
 source ~/.bashrc
 ```
 
-Verify installation 
+Verify installation: 
 
 <code>conda --version</code>
 
@@ -111,7 +111,7 @@ Navigate to <code>http://(EC2 Public IP):8888/?token=<some_long_string_of_charac
 
 *You'll have to look in the terminal to find the token to access Jupyter.*
 
-You can use <code>conda deactivate</code> to exit the environment. 
+<!-- You can use <code>conda deactivate</code> to exit the environment. -->
 
 Install **TensorRT** for inference acceleration:
 
