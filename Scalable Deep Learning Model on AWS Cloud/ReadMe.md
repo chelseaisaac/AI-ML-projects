@@ -157,13 +157,13 @@ model_name = "bert-base-uncased"
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
-#Import IMDb movie review datasets through Hugging Face's datasets library
+# Import IMDb movie review datasets through Hugging Face's datasets library
 dataset = load_dataset('imdb')
 
-#Tokenize the training data using BERT's tokenizer (converts text into a format BERT expects)
+# Tokenize the training data using BERT's tokenizer (converts text into a format BERT expects)
 train_dataset = dataset['train'].map(lambda e: tokenizer(e['text'], truncation=True, padding='max_length'), batched=True)
 
-#Convert the tokenized datasets into PyTorch tensors
+# Convert the tokenized datasets into PyTorch tensors
 train_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label'])
 
 # Define training arguments. We'll train the model for 3 epochs
