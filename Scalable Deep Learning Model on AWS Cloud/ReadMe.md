@@ -199,7 +199,7 @@ tokenizer.save_pretrained('./fine_tuned_bert')
 
 <!-- *It took about 7:17pm to ?? to train my model.* -->
 
-Upload the model to our S3 bucket:
+Upload the directory that contains our model & tokenizer to our S3 bucket:
 
 <code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
 
