@@ -135,7 +135,7 @@ Verify it was succesfully installed here:
 
 # 2. Choose a pre-trained model
 
-Let's choose a pre-trained model from TensorFlow Hub. We'll go with BERT since it's good for natural language processing and use it to do some sentiment analysis. (Ex. *Was this review positive or negative?* Things like that.)
+Let's choose a pre-trained model from TensorFlow Hub. We'll go with BERT since it's good for natural language processing. We'll use it to do some sentiment analysis. (Ex. *Was this review positive or negative?* Things like that.)
 
 
 We'll install PyTorch and Transformers. 
