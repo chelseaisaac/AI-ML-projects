@@ -117,7 +117,7 @@ Install **TensorRT** for inference acceleration:
 
 <code>sudo apt install tensorrt</code>
 
-We verify it was succesfully installed here: 
+Verify it was succesfully installed here: 
 
 <code>dpkg -l | grep tensorrt</code>
 
