@@ -49,6 +49,14 @@ If it's not, you can just run this command:
 
 No need to restart the EC2 instance as the changes to security group rules go into effect immediately.
 
+We'll also install AWS EFS or FSx to provide persistent storage for our Kubernetes cluster. 
+
+Create an EKS cluster. 
+
+Ensure GPU support is enabled by installing NVIDIA device plugin for Kubernetes:
+
+<code>kubectl apply -f https://github.com/NVIDIA/k8s-device-plugin/blob/master/nvidia-device-plugin.yml</code>
+
 # Let's install our NVIDIA AI Enterprise Tools
 
 Install **NVIDIA Triton Inference Server**. *We'll use it to optimize and serve our machine learning model.*
@@ -134,112 +142,49 @@ We'll install PyTorch and Transformers.
 We'll use the pre-trained BERT model from Hugging Face's Transformers Library and run some python code:
 
 ```
-from transformers import BertTokenizer, BertForSequenceClassification
-
-# Load pre-trained BERT model and tokenizer
-model_name = "bert-base-uncased"
-tokenizer = BertTokenizer.from_pretrained(model_name)
-model = BertForSequenceClassification.from_pretrained(model_name, num_labels=3)  # 3 labels for sentiment
-```
-
-Now, we'll import the IMDb movie reviews datasets available through Hugging Face's datasets library:
-
-```
+from transformers import BertTokenizer, BertForSequenceClassification, Trainer, TrainingArguments
 from datasets import load_dataset
 
-dataset = load_dataset("imdb")
-train_dataset = dataset['train']
-test_dataset = dataset['test']
-```
+# Load pre-trained BERT model and tokenizer from Hugging Face's Transformers library
+model_name = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
+model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
-Let's tokenize the test data using BERT's tokenizer. *It will convert the text into a format BERT expects.*
+#Import IMDb movie review datasets through Hugging Face's datasets library
+dataset = load_dataset('imdb')
 
-```
-def tokenize_function(example):
-    return tokenizer(example['text'], padding='max_length', truncation=True)
+#Tokenize the training data using BERT's tokenizer (converts text into a format BERT expects)
+train_dataset = dataset['train'].map(lambda e: tokenizer(e['text'], truncation=True, padding='max_length'), batched=True)
 
-train_dataset = train_dataset.map(tokenize_function, batched=True)
-test_dataset = test_dataset.map(tokenize_function, batched=True)
-```
+#Convert the tokenized datasets into PyTorch tensors
+train_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label'])
 
-Now let's convert the tokenized datasets into PyTorch dataloaders to train the model. 
+# Define training arguments. We'll train the model for 3 epochs
+training_args = TrainingArguments(
+    output_dir='./results',         # where model checkpoints and outputs will be saved
+    num_train_epochs=3,
+    per_device_train_batch_size=16, # each GPU will process 16 examples at a time
+    save_steps=10_000,              # model saved every 10,000 training steps
+    save_total_limit=2,             # only last 2 models are kept to save space
+    logging_dir='./logs',           # training logs
+    logging_steps=500,              # log every 500 steps
+    eval_strategy="epoch",
+    save_strategy="epoch",
+    load_best_model_at_end=True,    # the best model wins
+)
 
-```
-from torch.utils.data import DataLoader
+# Initialize Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=dataset['test'].map(lambda e: tokenizer(e['text'], truncation=True, padding='max_length'), batched=True)
+)
 
-train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=16)
-test_dataloader = DataLoader(test_dataset, batch_size=16)
-```
+# Fine-tune/train the model
+trainer.train()
 
-**Now, it's time to fine-tune our model.**
-
-We start with setting up the training loop by using the AdamW optimizer, a learning rate schedule to adjust the learning rate during the training process:
-
-```
-from transformers import AdamW
-from torch.optim.lr_scheduler import StepLR
-
-optimizer = AdamW(model.parameters(), lr=5e-5)
-scheduler = StepLR(optimizer, step_size=1, gamma=0.1)
-```
-
-Let's fine-tune the BERT model on the training dataset for 3 epochs:
-
-<!--  -->
-
-```
-import torch
-from torch import nn
-from torch.optim import AdamW
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-
-for epoch in range(3):  # 3 epochs
-    model.train()
-    total_loss = 0
-    for batch in train_dataloader:
-        optimizer.zero_grad()
-
-        inputs = {k: v.to(device) for k, v in batch.items() if k != 'label'}
-        labels = batch['label'].to(device)
-
-        outputs = model(**inputs, labels=labels)
-        loss = outputs.loss
-        loss.backward()
-        optimizer.step()
-
-        total_loss += loss.item()
-
-    avg_loss = total_loss / len(train_dataloader)
-    print(f"Epoch {epoch + 1}, Loss: {avg_loss}")
-```
-
-Let's evaluate the model on our test data to check its performance:
-
-```
-model.eval()
-correct = 0
-total = 0
-
-with torch.no_grad():
-    for batch in test_dataloader:
-        inputs = {k: v.to(device) for k, v in batch.items() if k != 'label'}
-        labels = batch['label'].to(device)
-
-        outputs = model(**inputs)
-        _, predicted = torch.max(outputs.logits, dim=1)
-
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
-
-accuracy = correct / total
-print(f"Test Accuracy: {accuracy * 100:.2f}%")
-```
-
-Let's save the fine-tuned model locally. 
-
-```
+# Save the model and tokenizer
 model.save_pretrained('./fine_tuned_bert')
 tokenizer.save_pretrained('./fine_tuned_bert')
 ```
