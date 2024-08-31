@@ -189,7 +189,7 @@ trainer = Trainer(
     eval_dataset=dataset['test'].map(lambda e: tokenizer(e['text'], truncation=True, padding='max_length'), batched=True)
 )
 
-# Fine-tune/train the model
+# Fine-tune or train the model
 trainer.train()
 
 # Save the model and tokenizer
