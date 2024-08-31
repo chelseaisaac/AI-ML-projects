@@ -171,6 +171,7 @@ training_args = TrainingArguments(
     eval_strategy="epoch",
     save_strategy="epoch",
     load_best_model_at_end=True,    # the best model wins
+    metric_for_best_model="loss",   # use loss to determine best model
 )
 
 # Initialize Trainer
