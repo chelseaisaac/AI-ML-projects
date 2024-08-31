@@ -107,7 +107,7 @@ Launch Jupyter
 
 <code>jupyter notebook --ip 0.0.0.0 --no-browser --port 8888</code>
 
-Navigate to <code>http://(VM IP):8888/?token=<some_long_string_of_characters></code> in your web browser to access Jupyter. 
+Navigate to <code>http://(EC2 Public IP):8888/?token=<some_long_string_of_characters></code> in your web browser to access Jupyter. 
 
 ![alt text]()
 
@@ -128,18 +128,12 @@ We verify it was succesfully installed here:
 
 Let's choose a pre-trained model from TensorFlow Hub. We'll go with BERT since it's good for natural language processing and use it to do some sentiment analysis. (Ex. *Was this review positive or negative?* Things like that.)
 
-We'll create a virtual environment:
-
-```
-python3 -m venv bert-env
-source bert-env/bin/activate
-```
 
 We'll install PyTorch and Transformers. 
 
 <code>pip install torch transformers datasets</code>
 
-We'll use the pre-trained BERT model from Hugging Face's Transformers Library:
+We'll use the pre-trained BERT model from Hugging Face's Transformers Library and run some python code:
 
 ```
 from transformers import BertTokenizer, BertForSequenceClassification
@@ -193,6 +187,8 @@ scheduler = StepLR(optimizer, step_size=1, gamma=0.1)
 
 Let's fine-tune the BERT model on the training dataset for 3 epochs:
 
+<!--  -->
+
 ```
 import torch
 from torch import nn
@@ -220,6 +216,40 @@ for epoch in range(3):  # 3 epochs
     avg_loss = total_loss / len(train_dataloader)
     print(f"Epoch {epoch + 1}, Loss: {avg_loss}")
 ```
+
+Let's evaluate the model on our test data to check its performance:
+
+```
+model.eval()
+correct = 0
+total = 0
+
+with torch.no_grad():
+    for batch in test_dataloader:
+        inputs = {k: v.to(device) for k, v in batch.items() if k != 'label'}
+        labels = batch['label'].to(device)
+
+        outputs = model(**inputs)
+        _, predicted = torch.max(outputs.logits, dim=1)
+
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+accuracy = correct / total
+print(f"Test Accuracy: {accuracy * 100:.2f}%")
+```
+
+Let's save the fine-tuned model locally. 
+
+```
+model.save_pretrained('./fine_tuned_bert')
+tokenizer.save_pretrained('./fine_tuned_bert')
+```
+
+
+Upload the model to our S3 bucket:
+
+<code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
 
 
 # 3. Containerization
