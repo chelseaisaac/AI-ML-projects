@@ -465,9 +465,13 @@ Let's configure kubectl to use the correct context for your cluster:
 
 <code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
 
+*I had to edit my permissions for the IAM role of my EC2 instance to issue this command.*
+
 Verify the connection:
 
 <code>kubectl get nodes</code>
+
+At this point, I was not able to connect and had to 
 
 Add the deployment to the EKS cluster:
 
