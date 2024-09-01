@@ -197,7 +197,7 @@ model.save_pretrained('./fine_tuned_bert')
 tokenizer.save_pretrained('./fine_tuned_bert')
 ```
 
-<!-- *It took about 7:17pm to ?? to train my model.* -->
+*It took about 2 hours 14 mins to train my model.*
 
 Upload the directory that contains our model & tokenizer to our S3 bucket:
 
