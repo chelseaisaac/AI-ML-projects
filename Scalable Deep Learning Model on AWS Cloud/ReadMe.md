@@ -199,16 +199,60 @@ tokenizer.save_pretrained('./fine_tuned_bert')
 
 *It took about 2 hours 14 mins to train my model.*
 
-Upload the directory that contains our model & tokenizer to our S3 bucket:
+Let's upload our model and tokenizer to S3 so I can have my tuned model on hand and not have to do this again.
 
-<code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
-
-(Before this, I created a folder in my bucket called "fine_tuned_bert".)
+I created a folder in my bucket called "fine_tuned_bert".
 
 In order to upload the directory to S3, we'll need to add an IAM role to our EC2 instance that will allow EC2 to accesss S3.
 
 ![alt text]()
 
+Upload the directory that contains our model & tokenizer to our S3 bucket:
+
+<code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
+
+![alt text]()
+
+Now, let's optimize our model for GPU execution using TensorRT. 
+
+First, let's convert our Hugging Face model to ONNX, a format TensorRT can use:
+
+Let's first install the libraries:
+
+<code>pip install torch onnx transformers</code>
+
+Then we can use this Python script to convert to ONXX
+
+```
+import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+# Load your model and tokenizer
+model_path = './fine_tuned_bert'
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+
+# Set the model to evaluation mode
+model.eval()
+
+# Create dummy input
+dummy_input = tokenizer("This is a sample text", return_tensors="pt")
+
+# Export the model
+torch.onnx.export(model,                     # model being run
+                  (dummy_input.input_ids, dummy_input.attention_mask),  # model input (or a tuple for multiple inputs)
+                  "bert_model.onnx",         # where to save the model
+                  export_params=True,        # store the trained parameter weights inside the model file
+                  opset_version=14,          # the ONNX version to export the model to
+                  do_constant_folding=True,  # whether to execute constant folding for optimization
+                  input_names=['input_ids', 'attention_mask'],   # the model's input names
+                  output_names=['output'],   # the model's output names
+                  dynamic_axes={'input_ids' : {0 : 'batch_size', 1: 'sequence'},    # variable length axes
+                                'attention_mask' : {0 : 'batch_size', 1: 'sequence'},
+                                'output' : {0 : 'batch_size', 1: 'sequence'}})
+
+print("Model exported to ONNX format")
+```
 
 # 3. Containerization
 
