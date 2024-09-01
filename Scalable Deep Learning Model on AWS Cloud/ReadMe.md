@@ -345,17 +345,48 @@ output [
 ]
 ```
 
-We'll save our TensorRT engine to S3:
+We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 
 <code>aws s3 cp bert_model.trt s3://your-bucket-name/triton-models/bert_model/1/model.plan</code>
 
+<code>aws s3 cp config.pbtxt s3://your-bucket-name/triton-models/bert_model/config.pbtxt</code>
 
 
 ![alt text]()
 
-In order for us to use this model with Triton, we need to 
+In order for us to use this model with Triton, we'll create repository for Triton with this structure:
+
+```
+triton-models/
+└── bert_model/
+    ├── 1/
+    │   └── model.plan
+    └── config.pbtxt
+```
 
 # 3. Containerization
+Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. 
+
+```
+# Start from NVIDIA's Triton Inference Server image
+FROM nvcr.io/nvidia/tritonserver:23.10-py3
+
+# Install any additional dependencies
+RUN pip install transformers torch
+
+# Set up the model repository
+WORKDIR /models
+COPY ./triton-models /models
+
+# Copy the Triton configuration
+COPY config.pbtxt /models/bert_model/config.pbtxt
+
+# Expose Triton's ports
+EXPOSE 8000 8001 8002
+
+# Start Triton Inference Server
+CMD ["tritonserver", "--model-repository=/models"]
+```
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
