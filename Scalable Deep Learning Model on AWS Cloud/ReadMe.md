@@ -14,6 +14,7 @@ The idea behind this project is to deploy a deep learning model on AWS using clo
 
 **Prerequisite:**
 - You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance.
+- Create a Docker Hub account
 
 # 1. AWS Cloud Setup
 
@@ -390,14 +391,27 @@ CMD ["tritonserver", "--model-repository=/models"]
 # Health check to ensure Triton is running
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8000/v2/health/ready || exit 1
-
-#For performance tuning
-RUN apt-get update && apt-get install -y triton-model-analyzer
 ```
 
 Let's build the Docker image:
 
 <code>docker build -t bert-triton-server:v1 .</code>
+
+Now let's push container image to the Amazon ECR:
+
+```
+# Authenticate
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-west-2.amazonaws.com
+
+# Create repository (if needed)
+aws ecr create-repository --repository-name bert-triton-server --region us-west-2
+
+# Tag image
+docker tag bert-triton-server:v1 123456789012.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
+
+# Push image
+docker push 123456789012.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
+```
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
