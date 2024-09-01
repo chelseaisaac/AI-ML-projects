@@ -268,6 +268,8 @@ print("Model exported to ONNX format")
 
 Now, let's optimize our model for GPU execution with TensorRT:
 
+This Python script creates a TensorRT engine file named "bert_model.trt".
+
 ```
 import tensorrt as trt
 import os
@@ -316,8 +318,42 @@ else:
     print("Failed to build TensorRT engine")
 ```
 
+Create a <code>config.pbtxt</code> file:
+
+```
+name: "bert_model"
+platform: "tensorrt_plan"
+max_batch_size: 8
+input [
+  {
+    name: "input_ids"
+    data_type: TYPE_INT32
+    dims: [ -1 ]
+  },
+  {
+    name: "attention_mask"
+    data_type: TYPE_INT32
+    dims: [ -1 ]
+  }
+]
+output [
+  {
+    name: "output"
+    data_type: TYPE_FP32
+    dims: [ -1, 2 ]  # Adjust based on your model's output
+  }
+]
+```
+
+We'll save our TensorRT engine to S3:
+
+<code>aws s3 cp bert_model.trt s3://your-bucket-name/triton-models/bert_model/1/model.plan</code>
+
+
+
 ![alt text]()
 
+In order for us to use this model with Triton, we need to 
 
 # 3. Containerization
 
