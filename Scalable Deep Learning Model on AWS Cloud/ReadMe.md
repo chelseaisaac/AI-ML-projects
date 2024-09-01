@@ -387,9 +387,17 @@ EXPOSE 8000 8001 8002
 # Start Triton Inference Server
 CMD ["tritonserver", "--model-repository=/models"]
 
+# Health check to ensure Triton is running
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8000/v2/health/ready || exit 1
+
+#For performance tuning
+RUN apt-get update && apt-get install -y triton-model-analyzer
 ```
+
+Let's build the Docker image:
+
+<code>docker build -t bert-triton-server:v1 .</code>
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
