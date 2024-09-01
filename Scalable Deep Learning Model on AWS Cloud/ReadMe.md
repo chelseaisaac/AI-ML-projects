@@ -386,6 +386,9 @@ EXPOSE 8000 8001 8002
 
 # Start Triton Inference Server
 CMD ["tritonserver", "--model-repository=/models"]
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8000/v2/health/ready || exit 1
 ```
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
