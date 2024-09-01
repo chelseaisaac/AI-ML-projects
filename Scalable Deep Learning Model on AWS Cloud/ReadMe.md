@@ -132,6 +132,18 @@ Verify it was succesfully installed here:
 
 <code>dpkg -l | grep tensorrt</code>
 
+Install TensorRT Python wheel 
+
+<code>python3 -m pip install --upgrade tensorrt</code>
+
+Verify that it was installed. 
+
+```
+python3
+>>> import tensorrt
+>>> print(tensorrt.__version__)
+>>> assert tensorrt.Builder(tensorrt.Logger())
+```
 
 # 2. Choose a pre-trained model
 
@@ -253,6 +265,59 @@ torch.onnx.export(model,                     # model being run
 
 print("Model exported to ONNX format")
 ```
+
+Now, let's optimize our model for GPU execution with TensorRT:
+
+```
+import tensorrt as trt
+import os
+
+def build_engine(onnx_file_path):
+    TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+    
+    with trt.Builder(TRT_LOGGER) as builder, builder.create_builder_config() as config:
+        # Configure the builder
+        config.max_workspace_size = 1 << 30  # 1GB
+        config.set_flag(trt.BuilderFlag.FP16)  # Enable FP16 mode if your GPU supports it
+        
+        # Load the ONNX file
+        explicit_batch = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
+        with builder.create_network(explicit_batch) as network, trt.OnnxParser(network, TRT_LOGGER) as parser:
+            with open(onnx_file_path, 'rb') as model:
+                if not parser.parse(model.read()):
+                    print('ERROR: Failed to parse the ONNX file.')
+                    for error in range(parser.num_errors):
+                        print(parser.get_error(error))
+                    return None
+            
+            # Build the engine
+            profile = builder.create_optimization_profile()
+            input_name = network.get_input(0).name
+            attention_mask_name = network.get_input(1).name
+            profile.set_shape(input_name, (1, 128), (8, 128), (32, 128))
+            profile.set_shape(attention_mask_name, (1, 128), (8, 128), (32, 128))
+            config.add_optimization_profile(profile)
+            
+            engine = builder.build_engine(network, config)
+            
+            # Serialize the engine
+            with open("bert_model.trt", "wb") as f:
+                f.write(engine.serialize())
+            
+            return engine
+
+# Optimize the model
+onnx_file_path = 'bert_model.onnx'
+trt_engine = build_engine(onnx_file_path)
+
+if trt_engine:
+    print("TensorRT engine built successfully")
+else:
+    print("Failed to build TensorRT engine")
+```
+
+![alt text]()
+
 
 # 3. Containerization
 
