@@ -379,7 +379,7 @@ WORKDIR /models
 COPY ./triton-models /models
 
 # Copy the Triton configuration
-COPY config.pbtxt /models/bert_model/config.pbtxt
+COPY triton-models/bert_model/config.pbtxt /models/bert_model/config.pbtxt
 
 # Expose Triton's ports
 EXPOSE 8000 8001 8002
