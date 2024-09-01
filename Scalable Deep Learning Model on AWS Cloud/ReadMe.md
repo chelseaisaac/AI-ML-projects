@@ -479,6 +479,9 @@ AmazonEKSClusterPolicy
 AmazonEKSWorkerNodePolicy (to manage worker nodes)
 AmazonEC2ContainerRegistryReadOnly (to pull images from ECR)
 
+Then we add the EC2 instance's role to the EKS cluster's RBAC configuration:
+<code>kubectl edit configmap aws-auth -n kube-system</code>
+
 
 Add the deployment to the EKS cluster:
 
