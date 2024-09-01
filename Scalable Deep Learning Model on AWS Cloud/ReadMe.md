@@ -401,16 +401,16 @@ Now let's push container image to the Amazon ECR:
 
 ```
 # Authenticate
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-west-2.amazonaws.com
+aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com
 
 # Create repository (if needed)
-aws ecr create-repository --repository-name bert-triton-server --region us-west-2
+aws ecr create-repository --repository-name bert-triton-server --region your-region
 
 # Tag image
-docker tag bert-triton-server:v1 123456789012.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
+docker tag bert-triton-server:v1 <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
 
 # Push image
-docker push 123456789012.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
+docker push <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/bert-triton-server:latest
 ```
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
