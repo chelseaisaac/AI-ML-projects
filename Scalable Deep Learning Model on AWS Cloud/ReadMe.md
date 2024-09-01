@@ -415,6 +415,75 @@ docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-ser
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
+Let's create a Kubernetes cluster in AWS using EKS:
+![alt text]()
+![alt text]()
+![alt text]()
+
+Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: triton-server
+  template:
+    metadata:
+      labels:
+        app: triton-server
+    spec:
+      containers:
+      - name: triton-server
+        image: your-ecr-repo/triton-server:latest
+        ports:
+        - containerPort: 8000
+        - containerPort: 8001
+        - containerPort: 8002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-service
+spec:
+  selector:
+    app: triton-server
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+```
+
+Add the deployment to the EKS cluster:
+<code>kubectl apply -f triton-deployment.yaml</code>
+
+
+
 # 5. Inference service
 
+To use our model once deployed, let's interact with it using the Triton Inference Server's HTTP/gRPC API or client libraries. Here's a Python example using the Triton client library:
 
+
+```
+import tritonclient.http as httpclient
+import numpy as np
+
+client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")
+
+# Prepare your input data
+input_data = np.array([[1.0, 2.0, 3.0, 4.0]], dtype=np.float32)
+
+# Create the input tensor
+inputs = [httpclient.InferInput("input_name", input_data.shape, "FP32")]
+inputs[0].set_data_from_numpy(input_data)
+
+# Send inference request
+results = client.infer("your_model_name", inputs)
+
+# Get the output
+output = results.as_numpy("output_name")
+print(output)
+```
