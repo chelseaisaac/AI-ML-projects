@@ -203,6 +203,12 @@ Upload the directory that contains our model & tokenizer to our S3 bucket:
 
 <code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
 
+(Before this, I created a folder in my bucket called "fine_tuned_bert".)
+
+In order to upload the directory to S3, we'll need to add an IAM role to our EC2 instance that will allow EC2 to accesss S3.
+
+![alt text]()
+
 
 # 3. Containerization
 
