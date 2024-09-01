@@ -457,6 +457,13 @@ spec:
       targetPort: 8000
 ```
 
+Let's install kubectl:
+<code>sudo apt-get update && sudo apt-get install -y kubectl</code>
+
+Let's configure kubectl to use the correct context for your cluster:
+<code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
+
+
 Add the deployment to the EKS cluster:
 <code>kubectl apply -f triton-deployment.yaml</code>
 
