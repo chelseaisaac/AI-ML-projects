@@ -458,7 +458,7 @@ spec:
 ```
 
 Let's install kubectl:
-<code>sudo apt-get update && sudo apt-get install -y kubectl</code>
+<code> sudo snap install kubectl --classic</code>
 
 Let's configure kubectl to use the correct context for your cluster:
 <code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
