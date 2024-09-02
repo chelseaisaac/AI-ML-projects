@@ -420,11 +420,16 @@ Let's create a Kubernetes cluster in AWS using EKS:
 ![alt text]()
 ![alt text]()
 
+I attached a role with the following policy:
+![alt text]()
+
+
+
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
 ![alt text]()
 ![alt text]()
 
-We'll need to create an IAM role for our node group to be able to pull docker images from ECR, access S3, CloudWatch and EFS. 
+We'll need to attach an IAM role to our node group with necessary permissions to be able to pull docker images from ECR, access S3, CloudWatch and EFS. 
 ![alt text]()
 
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
