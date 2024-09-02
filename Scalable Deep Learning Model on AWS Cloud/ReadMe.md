@@ -420,7 +420,7 @@ Let's create a Kubernetes cluster in AWS using EKS:
 ![alt text]()
 ![alt text]()
 
-Be sure to use access EKS API and ConfigMap
+I 
 
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
 ```
