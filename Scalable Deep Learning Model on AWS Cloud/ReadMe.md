@@ -421,6 +421,17 @@ Let's create a Kubernetes cluster in AWS using EKS:
 ![alt text]()
 
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
+![alt text]()
+![alt text]()
+![alt text]()
+
+Since we created our cluster using EKS, we need to update our kubeconfig file:
+
+<code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
+
+Let's also ensure GPU support is enabled by installing the NVIDIA device plygin for Kubernetes:
+
+<code>kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml</code>
 
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
 ```
