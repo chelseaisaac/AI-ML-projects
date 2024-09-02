@@ -423,6 +423,8 @@ Let's create a Kubernetes cluster in AWS using EKS:
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
 ![alt text]()
 ![alt text]()
+
+We'll need to create an IAM role for our node group to be able to pull docker images from ECR, access S3, CloudWatch and EFS. 
 ![alt text]()
 
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
@@ -472,7 +474,7 @@ Since we created our cluster using EKS, we need to update our kubeconfig file:
 
 *I had to edit my permissions for the IAM role of my EC2 instance to issue this command.*
 
-Let's also ensure GPU support is enabled by installing the NVIDIA device plygin for Kubernetes:
+Let's also ensure GPU support is enabled by installing the NVIDIA device plugin for Kubernetes:
 
 <code>kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml</code>
 
