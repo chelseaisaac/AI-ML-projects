@@ -420,6 +420,8 @@ Let's create a Kubernetes cluster in AWS using EKS:
 ![alt text]()
 ![alt text]()
 
+Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
+
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
 ```
 apiVersion: apps/v1
