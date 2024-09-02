@@ -472,8 +472,6 @@ Since we created our cluster using EKS, we need to update our kubeconfig file:
 
 <code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
 
-*I had to edit my permissions for the IAM role of my EC2 instance to issue this command.*
-
 Let's also ensure GPU support is enabled by installing the NVIDIA device plugin for Kubernetes:
 
 <code>kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml</code>
@@ -498,6 +496,9 @@ Add the deployment to the EKS cluster:
 
 <code>kubectl apply -f triton-deployment.yaml</code>
 
+Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
+
+<code>kubectl autoscale deployment mymodel-deployment --cpu-percent=50 --min=1 --max=10</code>
 
 
 # 5. Inference service
