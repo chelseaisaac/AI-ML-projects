@@ -485,18 +485,6 @@ Verify the connection:
 
 <code>kubectl get nodes</code>
 
-At this point, I was not able to connect. I got this error:
-<code>error: You must be logged in to the server (the server has asked for the client to provide credentials)</code>
-
-So I added these policies to the IAM role of my EC2 instance:
-AmazonEKSClusterPolicy
-AmazonEKSWorkerNodePolicy (to manage worker nodes)
-AmazonEC2ContainerRegistryReadOnly (to pull images from ECR)
-
-Then we add the EC2 instance's role to the EKS cluster's RBAC configuration:
-<code>kubectl edit configmap aws-auth -n kube-system</code>
-
-
 Add the deployment to the EKS cluster:
 
 <code>kubectl apply -f triton-deployment.yaml</code>
