@@ -500,6 +500,10 @@ Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the nu
 
 <code>kubectl autoscale deployment mymodel-deployment --cpu-percent=50 --min=1 --max=10</code>
 
+Then verify that the HPA was created:
+
+<code>kubectl get hpa</code>
+
 
 # 5. Inference service
 
