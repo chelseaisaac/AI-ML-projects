@@ -13,7 +13,7 @@ The idea behind this project is to deploy a deep learning model on AWS using clo
 
 
 **Prerequisite:**
-- You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance.
+- You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance. I requested 24 vPCUs.
 - Create a Docker Hub account
 
 # 1. AWS Cloud Setup
