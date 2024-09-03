@@ -532,19 +532,30 @@ Here's a Python example using the Triton client library:
 import tritonclient.http as httpclient
 import numpy as np
 
-client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")
+try:
+    client = httpclient.InferenceServerClient(url="http://10.100.103.162:8000")
+    
+    if not client.is_server_ready():
+        print("Server is not ready")
+        exit(1)
 
-# Prepare your input data
-input_data = np.array([[1.0, 2.0, 3.0, 4.0]], dtype=np.float32)
+    # Prepare your input data
+    input_data = np.array([[1.0, 2.0, 3.0, 4.0]], dtype=np.float32)
 
-# Create the input tensor
-inputs = [httpclient.InferInput("input_name", input_data.shape, "FP32")]
-inputs[0].set_data_from_numpy(input_data)
+    # Create the input tensor
+    inputs = [httpclient.InferInput("input_name", input_data.shape, "FP32")]
+    inputs[0].set_data_from_numpy(input_data)
 
-# Send inference request
-results = client.infer("your_model_name", inputs)
+    # Specify the output
+    outputs = [httpclient.InferRequestedOutput("output_name")]
 
-# Get the output
-output = results.as_numpy("output_name")
-print(output)
+    # Send inference request
+    results = client.infer("your_model_name", inputs, outputs=outputs)
+
+    # Get the output
+    output = results.as_numpy("output_name")
+    print(output)
+
+except Exception as e:
+    print(f"An error occurred: {e}")
 ```
