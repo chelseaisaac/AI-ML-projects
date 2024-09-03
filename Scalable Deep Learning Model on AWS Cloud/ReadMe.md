@@ -413,7 +413,7 @@ docker tag bert-triton-server:v1 <aws_account_id>.dkr.ecr.<your-region>.amazonaw
 docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:latest
 ```
 
-*At this point, I did not need my EC2 instance and since I am liited in my AWS account to 8 vCPUs (2 g4dn.xlarge instances), I deleted my instance. That way I can successfully create an EKS cluster and node group without hitting my limit.*
+*At this point, I did not need my EC2 instance and since I am limited in my AWS account to 8 vCPUs (2 g4dn.xlarge instances), I deleted my instance. That way I can successfully create an EKS cluster and node group without hitting my limit.*
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
