@@ -471,6 +471,8 @@ spec:
       targetPort: 8000
 ```
 
+Now, we'll log into AWS Cloudshell to issue the following commands. 
+
 Let's install kubectl:
 
 <code>sudo snap install kubectl --classic</code>
