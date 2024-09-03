@@ -471,6 +471,10 @@ spec:
 
 Now, we'll log into AWS Cloudshell to issue the following commands. 
 
+I already had my yaml file saved in S3 so I downloaded it to my Cloudshell environment:
+
+<code>aws s3 cp s3://your-bucket-name/deployment.yaml .</code>
+
 Since we created our cluster using EKS, we need to update our kubeconfig file:
 
 <code>aws eks --region your-region update-kubeconfig --name your-cluster-name</code>
