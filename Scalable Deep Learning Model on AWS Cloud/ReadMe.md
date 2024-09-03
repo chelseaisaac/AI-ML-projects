@@ -521,7 +521,7 @@ First, let's get the external address to interact with our Triton server:
 <code>kubectl get services</code>
 
 
-Let's install Triton:
+Let's install Triton with HTTP support:
 
 <code>pip install tritonclient[http]</code>
 
