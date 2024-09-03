@@ -425,8 +425,6 @@ Let's create a Kubernetes cluster in AWS using EKS:
 I attached a role with the following policy:
 ![alt text]()
 
-
-
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
 ![alt text]()
 ![alt text]()
@@ -472,10 +470,6 @@ spec:
 ```
 
 Now, we'll log into AWS Cloudshell to issue the following commands. 
-
-Let's install kubectl:
-
-<code>sudo snap install kubectl --classic</code>
 
 Since we created our cluster using EKS, we need to update our kubeconfig file:
 
