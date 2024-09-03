@@ -494,7 +494,7 @@ Let's also ensure GPU support is enabled by installing the NVIDIA device plugin 
 
 <code>kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml</code>
 
-Verify the connection:
+Verify you can connect to the cluster:
 
 <code>kubectl get nodes</code>
 
