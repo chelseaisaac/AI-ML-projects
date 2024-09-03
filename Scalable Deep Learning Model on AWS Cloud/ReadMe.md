@@ -489,7 +489,7 @@ Add the deployment to the EKS cluster:
 
 Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
 
-<code>kubectl autoscale deployment mymodel-deployment --cpu-percent=50 --min=1 --max=10</code>
+<code>kubectl autoscale deployment mymodel-deployment --cpu-percent=50 --min=1 --max=2</code>
 
 Then verify that the HPA was created:
 
