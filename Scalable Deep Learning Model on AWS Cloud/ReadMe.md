@@ -455,6 +455,9 @@ spec:
         - containerPort: 8000
         - containerPort: 8001
         - containerPort: 8002
+        resources:
+          limits:
+            nvidia.com/gpu: 1
 ---
 apiVersion: v1
 kind: Service
@@ -467,6 +470,14 @@ spec:
     - protocol: TCP
       port: 8000
       targetPort: 8000
+    - name: grpc
+      protocol: TCP
+      port: 8001
+      targetPort: 8001
+    - name: metrics
+      protocol: TCP
+      port: 8002
+      targetPort: 8002
 ```
 
 Now, we'll log into AWS Cloudshell to issue the following commands. 
