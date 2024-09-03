@@ -450,7 +450,7 @@ spec:
     spec:
       containers:
       - name: triton-server
-        image: your-ecr-repo/triton-server:latest
+        image: your-ecr-repo/bert-triton-server:latest
         ports:
         - containerPort: 8000
         - containerPort: 8001
