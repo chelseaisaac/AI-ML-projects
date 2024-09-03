@@ -467,7 +467,8 @@ spec:
   selector:
     app: triton-server
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 8000
       targetPort: 8000
     - name: grpc
