@@ -523,7 +523,7 @@ First, let's get the external address to interact with our Triton server:
 
 Let's install Triton with HTTP support:
 
-<code>pip install tritonclient[http]</code>
+<code>pip install --user tritonclient[http]==2.33.0</code>
 
 Here's a Python example using the Triton client library:
 
