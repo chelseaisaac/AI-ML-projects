@@ -514,7 +514,14 @@ Then verify that the HPA was created:
 
 # 5. Inference service
 
-To use our model once deployed, let's interact with it using the Triton Inference Server's HTTP/gRPC API or client libraries. Here's a Python example using the Triton client library:
+To use our model once deployed, let's interact with it using the Triton Inference Server's HTTP/gRPC API or client libraries. 
+
+First, let's get the external address to interact with our Triton server:
+
+<code>kubectl get services</code>
+
+
+Here's a Python example using the Triton client library:
 
 
 ```
