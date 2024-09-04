@@ -498,6 +498,10 @@ Verify you can connect to the cluster:
 
 <code>kubectl get nodes</code>
 
+Since we're manually pulling images from ECR, let's authenticate our Docker client with ECR:
+
+<code>aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com</code>
+
 Add the deployment to the EKS cluster:
 
 <code>kubectl apply -f triton-deployment.yaml</code>
