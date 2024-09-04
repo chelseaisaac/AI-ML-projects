@@ -532,7 +532,7 @@ import tritonclient.http as httpclient
 import numpy as np
 
 try:
-    client = httpclient.InferenceServerClient(url="triton-url:8000")
+    client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")
     
     if not client.is_server_ready():
         print("Server is not ready")
