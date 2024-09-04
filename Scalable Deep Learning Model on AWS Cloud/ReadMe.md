@@ -453,7 +453,7 @@ spec:
     spec:
       containers:
       - name: triton-server
-        image: your-ecr-repo/bert-triton-server:latest
+        image: <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/your-ecr-repo/bert-triton-server:latest
         ports:
         - containerPort: 8000
         - containerPort: 8001
