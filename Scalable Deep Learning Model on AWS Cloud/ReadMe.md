@@ -11,6 +11,8 @@
 
 The idea behind this project is to deploy a deep learning model on AWS using cloud-native technologies and NVIDIA AI Enterprise tools.
 
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/Tuning%20BERT%20model.png?raw=true)
+
 
 **Prerequisite:**
 - You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance. I requested 8 vPCUs.
