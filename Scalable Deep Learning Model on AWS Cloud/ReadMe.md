@@ -506,6 +506,11 @@ Add the deployment to the EKS cluster:
 
 <code>kubectl apply -f triton-deployment.yaml</code>
 
+Look for existing pods:
+<code>kubectl get pods</code>
+
+View what containers are inside the pods:
+<code>kubectl describe pods</code>
 
 Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
 
