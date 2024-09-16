@@ -375,8 +375,9 @@ Now it's time to containerize our model. To do this, we'll create a Docker image
 # Start from NVIDIA's Triton Inference Server image
 FROM nvcr.io/nvidia/tritonserver:23.10-py3
 
-# Install any additional dependencies
-RUN pip install transformers torch
+# Install any additional dependencies (e.g., Transformers, PyTorch)
+RUN pip install --upgrade pip && \
+    pip install transformers torch
 
 # Set up the model repository
 WORKDIR /models
