@@ -507,13 +507,13 @@ Add the deployment to the EKS cluster:
 <code>kubectl apply -f triton-deployment.yaml</code>
 
 
-<!-- Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
+Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
 
 <code>kubectl autoscale deployment triton-deployment --cpu-percent=70 --min=1 --max=2</code>
 
 Then verify that the HPA was created:
 
-<code>kubectl get hpa</code> -->
+<code>kubectl get hpa</code> 
 
 
 # 5. Inference service
