@@ -407,10 +407,10 @@ aws ecr get-login-password --region your-region | docker login --username AWS --
 aws ecr create-repository --repository-name bert-triton-server --region your-region
 
 # Tag image
-docker tag bert-triton-server:v1 <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:v1
+docker tag bert-triton-server:v1 <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:latest
 
 # Push image
-docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:v1
+docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:latest
 ```
 
 *At this point, I did not need my EC2 instance and since I am limited in my AWS account to 8 vCPUs (2 g4dn.xlarge instances), I deleted my instance. That way I can successfully create an EKS cluster and node group without hitting my limit.*
