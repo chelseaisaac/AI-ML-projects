@@ -369,7 +369,7 @@ triton-models/
 ```
 
 # 3. Containerization
-Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. 
+Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
 
 ```
 # Start from NVIDIA's Triton Inference Server image
