@@ -513,7 +513,7 @@ View what containers are inside the pods:
 <code>kubectl describe pods</code>
 
 *My pods had a hard time getting created. I initially got a FailedScheduling error because the nodes did not match pod's node affinity/selector. So I added a label to my GPU nodes:*
-<code>kubectl label nodes <node-name> accelerator=nvidia-gpu</code>
+<code>kubectl label nodes add-node-name-here accelerator=nvidia-gpu</code>
 
 Let's set up Horizontal Pod Autosaler which enables autoscaling to manage the number of pods based on GPU usage: 
 
