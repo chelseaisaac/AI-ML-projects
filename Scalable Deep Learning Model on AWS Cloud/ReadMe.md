@@ -372,20 +372,10 @@ triton-models/
 Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
 
 ```
-# Start from a CUDA 12.0 base image that includes TensorRT support
-FROM nvcr.io/nvidia/cuda:12.0-cudnn8-runtime-ubuntu20.04
+# Start from NVIDIA's Triton Inference Server image
+FROM nvcr.io/nvidia/tritonserver:23.10-py3  
 
-# Install TensorRT 8.6.1.6 and other necessary packages
-RUN apt-get update && apt-get install -y \
-    wget \
-    libnvinfer8=8.6.1.6-1+cuda12.0 \
-    libnvinfer-plugin8=8.6.1.6-1+cuda12.0 \
-    libnvinfer-dev=8.6.1.6-1+cuda12.0 \
-    python3-pip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Upgrade pip and install any other Python packages you need
+# Install any additional dependencies (e.g., Transformers, PyTorch)
 RUN pip install --upgrade pip && \
     pip install transformers torch
 
