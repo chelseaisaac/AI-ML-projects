@@ -330,24 +330,24 @@ Create a <code>config.pbtxt</code> file:
 ```
 name: "bert_model"
 platform: "tensorrt_plan"
-max_batch_size: 8
+max_batch_size: 32
 input [
   {
     name: "input_ids"
     data_type: TYPE_INT32
-    dims: [ -1 ]
+    dims: [ 128 ]
   },
   {
     name: "attention_mask"
     data_type: TYPE_INT32
-    dims: [ -1 ]
+    dims: [ 128 ]
   }
 ]
 output [
   {
     name: "output"
     data_type: TYPE_FP32
-    dims: [ -1, 2 ]  # Adjust based on your model's output
+    dims: [ 2 ]  # Assuming binary classification; adjust if different
   }
 ]
 ```
