@@ -47,22 +47,6 @@ If it's not, you can just run this command:
 
 <code>sudo apt-get install -y libcudnn8 libcudnn8-dev</code>
 
-*At this point, I realized I wanted to be able to access Jupyter notebooks so I updated my security group rules to allow ports 8888,8786,8787 to be able to open it from a web browser. We'll also need port 8000 for our Triton server.* 
-
-![alt text]()
-
-No need to restart the EC2 instance as the changes to security group rules go into effect immediately.
-
-We'll also install AWS EFS or FSx to provide persistent storage for our Kubernetes cluster. 
-
-Create an EKS cluster. 
-
-Ensure GPU support is enabled by installing NVIDIA device plugin for Kubernetes:
-
-<code>kubectl apply -f https://github.com/NVIDIA/k8s-device-plugin/blob/master/nvidia-device-plugin.yml</code>
-
-Configure node groups with GPU instances to serve as the worker nodes in your cluster.
-
 
 # Let's install our NVIDIA AI Enterprise Tools
 
