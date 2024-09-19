@@ -237,7 +237,7 @@ Let's first install the libraries:
 
 <code>pip install torch onnx transformers</code>
 
-Then we can use this Python script to convert to ONXX
+Then we can use this Python script to convert to ONXX. *We do this to to leverage acceleration tools like TensorRT.*
 
 ```
 import torch
