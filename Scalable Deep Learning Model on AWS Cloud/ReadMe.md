@@ -396,8 +396,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && curl https://bootstrap.pypa.io/get-pip.py | python3.10 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Triton Inference Server Python backend
-RUN pip3 install --no-cache-dir tritonclient[all] numpy
+# Install Triton Inference Server
+RUN wget https://github.com/triton-inference-server/server/releases/download/v2.40.0/tritonserver2.40.0-ubuntu2204.tar.gz \
+    && tar -xzvf tritonserver2.40.0-ubuntu2204.tar.gz -C /opt \
+    && rm tritonserver2.40.0-ubuntu2204.tar.gz
 
 # Install additional Python packages
 RUN pip3 install --no-cache-dir \
