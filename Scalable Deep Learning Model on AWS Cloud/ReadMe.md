@@ -270,7 +270,7 @@ torch.onnx.export(model,                     # model being run
 print("Model exported to ONNX format")
 ```
 
-Now, let's optimize our model for GPU execution with TensorRT:
+Now, let's optimize our model for GPU execution with TensorRT.
 
 This Python script creates a TensorRT engine file named "bert_model.trt".
 
@@ -321,6 +321,8 @@ if trt_engine:
 else:
     print("Failed to build TensorRT engine")
 ```
+
+*A TensorRT engine is a highly optimized, hardware-specific representation of a deep learning model that processed by NVIDIA TensorRT. It converts models from common deep learning frameworks (e.g., PyTorch, TensorFlow, ONNX) into an optimized format that can run efficiently on NVIDIA GPUs.*
 
 Create a <code>config.pbtxt</code> file:
 
