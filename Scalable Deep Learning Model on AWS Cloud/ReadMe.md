@@ -243,29 +243,27 @@ Then we can use this Python script to convert to ONXX. *We do this to to leverag
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-# Load your model and tokenizer
 model_path = './fine_tuned_bert'
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# Set the model to evaluation mode
 model.eval()
 
-# Create dummy input
+# Create dummy input with dynamic sequence length
 dummy_input = tokenizer("This is a sample text", return_tensors="pt")
 
 # Export the model
-torch.onnx.export(model,                     # model being run
-                  (dummy_input.input_ids, dummy_input.attention_mask),  # model input (or a tuple for multiple inputs)
-                  "bert_model.onnx",         # where to save the model
-                  export_params=True,        # store the trained parameter weights inside the model file
-                  opset_version=14,          # the ONNX version to export the model to
-                  do_constant_folding=True,  # whether to execute constant folding for optimization
-                  input_names=['input_ids', 'attention_mask'],   # the model's input names
-                  output_names=['output'],   # the model's output names
-                  dynamic_axes={'input_ids' : {0 : 'batch_size', 1: 'sequence'},    # variable length axes
-                                'attention_mask' : {0 : 'batch_size', 1: 'sequence'},
-                                'output' : {0 : 'batch_size', 1: 'sequence'}})
+torch.onnx.export(model,
+                  (dummy_input.input_ids, dummy_input.attention_mask),
+                  "bert_model.onnx",
+                  export_params=True,
+                  opset_version=14,
+                  do_constant_folding=True,
+                  input_names=['input_ids', 'attention_mask'],
+                  output_names=['output'],
+                  dynamic_axes={'input_ids': {0: 'batch_size', 1: 'sequence'},
+                                'attention_mask': {0: 'batch_size', 1: 'sequence'},
+                                'output': {0: 'batch_size'}})
 
 print("Model exported to ONNX format")
 ```
@@ -302,8 +300,8 @@ def build_engine(onnx_file_path):
             profile = builder.create_optimization_profile()
             input_name = network.get_input(0).name
             attention_mask_name = network.get_input(1).name
-            profile.set_shape(input_name, (1, 128), (8, 128), (32, 128))
-            profile.set_shape(attention_mask_name, (1, 128), (8, 128), (32, 128))
+            profile.set_shape(input_name, (1, 6), (8, 256), (32, 512))
+            profile.set_shape(attention_mask_name, (1, 6), (8, 256), (32, 512))
             config.add_optimization_profile(profile)
             
             engine = builder.build_serialized_network(network, config)
@@ -334,20 +332,30 @@ max_batch_size: 32
 input [
   {
     name: "input_ids"
-    data_type: TYPE_INT32
-    dims: [ 128 ]
+    data_type: TYPE_INT64
+    dims: [ -1 ]
   },
   {
     name: "attention_mask"
-    data_type: TYPE_INT32
-    dims: [ 128 ]
+    data_type: TYPE_INT64
+    dims: [ -1 ]
   }
 ]
 output [
   {
     name: "output"
     data_type: TYPE_FP32
-    dims: [ 2 ]  
+    dims: [ 2 ]
+  }
+]
+dynamic_batching {
+  preferred_batch_size: [ 8 ]
+  max_queue_delay_microseconds: 100
+}
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
   }
 ]
 ```
