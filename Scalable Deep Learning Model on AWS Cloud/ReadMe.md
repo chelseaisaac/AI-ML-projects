@@ -208,7 +208,7 @@ Now, let's optimize our model for GPU execution with TensorRT.
 
 *A TensorRT engine is a highly optimized, hardware-specific representation of a deep learning model that processed by NVIDIA TensorRT. It converts models from common deep learning frameworks (e.g., PyTorch, TensorFlow, ONNX) into an optimized format that can run efficiently on NVIDIA GPUs.*
 
-This Python script creates a TensorRT engine file named "bert_model.plan".
+This Python script creates a TensorRT engine file named "bert_model.plan". You can also build your TensorRT engine engine in a Triton container to better control and manage the TensorRT versions in your build environment and container environmennt (provided under the script).
 
 ```
 import tensorrt as trt
@@ -259,6 +259,54 @@ else:
 ```
 
 
+
+*As I said before, you should build the TensorRT engine in a Triton container. Here's a Dockerfile to create the Triton container.*
+
+```
+# Use Triton Inference Server with TensorRT 10.4.0.26
+FROM nvcr.io/nvidia/tritonserver:24.08-py3
+
+# Install additional dependencies such as pycuda and any others you need
+RUN pip3 install --no-cache-dir pycuda onnx torch transformers
+
+# Set up a directory for the model and copy your ONNX model into the container
+WORKDIR /workspace
+COPY ./your_model.onnx /workspace/your_model.onnx
+
+# Expose Triton's ports for inference
+EXPOSE 8000 8001 8002
+
+# Default command is to open a bash shell (or you could directly launch Triton)
+CMD ["/bin/bash"]
+
+```
+
+Build Triton container:
+<code>docker build -t my_triton_with_tensorrt_10_4 .</code>
+
+Run container interactively with GPU access
+<code>docker run --gpus all -it --rm my_triton_with_tensorrt_10_4 bash</code>
+
+Inside container, convert ONXX model to a TensorRT engine
+<code>trtexec --onnx=bert_model.onnx --saveEngine=model.plan</code>
+
+Verify the engine: <code>trtexec --loadEngine=model.plan</code>
+
+*If you're not able to run the trtexec command, find where it is:* <code>sudo find / -name trtexec</code>
+
+*Then add the directory containing it to your path:*
+```
+echo 'export PATH=$PATH:/usr/src/tensorrt/bin' >> ~/.bashrc
+source ~/.bashrc
+```
+*(You can replace the path to where your trtexec is located).*
+
+Organize the model repository in the container:
+```
+mkdir -p /workspace/triton-models/bert_model/1
+mv /workspace/model.plan /workspace/triton-models/bert_model/1/
+```
+
 Create a <code>config.pbtxt</code> file:
 
 ```
@@ -295,6 +343,12 @@ instance_group [
   }
 ]
 ```
+
+Send your engine and <code>config.pbtxt</code> file from your Docker container to your local EC2 instance. For example, to send the engine, issue this command:
+
+<code>docker cp <container_id>:/workspace/model.plan ./model.plan</code>
+
+(Use <code>docker ps</code> to find container id.)
 
 We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 
