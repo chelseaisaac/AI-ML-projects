@@ -163,7 +163,7 @@ Upload the directory that contains our model & tokenizer to our S3 bucket:
 
 <code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
 
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/2Fine%20tuned%20model%20in%20S3%20bucket.png?raw=true)
 
 Now, let's optimize our model for GPU execution using TensorRT. 
 
@@ -364,7 +364,7 @@ We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 <code>aws s3 cp config.pbtxt s3://your-bucket-name/triton-models/bert_model/config.pbtxt</code>
 
 
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/3Triton%20model%20in%20EC2.png?raw=true)
 
 In order for us to use this model with Triton, we'll create repository for Triton with this structure:
 
@@ -428,19 +428,20 @@ docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-ser
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
 Let's create a Kubernetes cluster in AWS using EKS:
-![alt text]()
-![alt text]()
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/4EKS%20cluster%201.png?raw=true)
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/5EKS%20cluster%202.png?raw=true)
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/6EKS%20cluster%205.png?raw=true)
 
 I attached a role with the following policy:
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/7EKS%20cluster%20role.png?raw=true)
 
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
-![alt text]()
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/8EKS%20cluster%20nodes.png?raw=true)
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/8bEKS%20cluster%20nodes%202a.png?raw=true)
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/9EKS%20cluster%20nodes%20-3a.png?raw=true)
 
 We'll need to attach an IAM role to our node group with necessary permissions to be able to pull docker images from ECR, access S3, CloudWatch and EFS. 
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/10EKS%20node%20group%20role.png?raw=true)
 
 Here's a Kubernetes deployment YAML file that specifies the Docker image from ECR and requests GPU resources:
 ```
