@@ -384,7 +384,7 @@ Now it's time to containerize our model. To do this, we'll create a Docker image
 
 ```
 # Use the official Triton Inference Server container which includes TensorRT
-FROM nvcr.io/nvidia/tritonserver:23.12-py3
+FROM nvcr.io/nvidia/tritonserver:23.10-py3
 
 # Install additional Python packages
 RUN pip3 install --no-cache-dir \
