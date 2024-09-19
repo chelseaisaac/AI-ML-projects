@@ -383,28 +383,28 @@ triton-models/
 Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
 
 ```
-# Start from a more recent NVIDIA's Triton Inference Server image
-FROM nvcr.io/nvidia/tritonserver:24.02-py3
+# Use the NGC container with TensorRT 10.4.0
+FROM nvcr.io/nvidia/tensorrt:23.12-py3
 
-# Install additional dependencies
+# Install Triton Inference Server
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget \
-    ca-certificates \
+    curl \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update \
+    && apt-get install -y python3.10 python3.10-distutils \
+    && curl https://bootstrap.pypa.io/get-pip.py | python3.10 \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install TensorRT 10.4.0
-RUN wget https://developer.nvidia.com/downloads/compute/machine-learning/tensorrt/secure/10.4.0/tars/TensorRT-10.4.0.18.Linux.x86_64-gnu.cuda-12.4.tar.gz \
-    && tar -xzf TensorRT-10.4.0.18.Linux.x86_64-gnu.cuda-12.4.tar.gz \
-    && mv TensorRT-10.4.0.18 /usr/local/tensorrt \
-    && rm TensorRT-10.4.0.18.Linux.x86_64-gnu.cuda-12.4.tar.gz
+# Install Triton Inference Server Python backend
+RUN pip3 install --no-cache-dir tritonclient[all] numpy
 
-# Set environment variables for the new TensorRT
-ENV LD_LIBRARY_PATH="/usr/local/tensorrt/lib:${LD_LIBRARY_PATH}"
-ENV PATH="/usr/local/tensorrt/bin:${PATH}"
-
-# Install any additional Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir transformers torch
+# Install additional Python packages
+RUN pip3 install --no-cache-dir \
+    transformers \
+    torch \
+    onnx \
+    pycuda
 
 # Set up the model repository
 WORKDIR /models
@@ -413,8 +413,8 @@ COPY ./triton-models /models
 # Expose Triton's ports
 EXPOSE 8000 8001 8002
 
-# Start Triton Inference Server with verbose logging
-CMD ["tritonserver", "--model-repository=/models", "--log-verbose=1"]
+# Start Triton Inference Server
+CMD ["tritonserver", "--model-repository=/models"]
 
 # Health check to ensure Triton is running
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
