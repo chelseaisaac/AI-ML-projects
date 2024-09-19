@@ -362,7 +362,7 @@ instance_group [
 
 We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 
-<code>aws s3 cp bert_model.trt s3://your-bucket-name/triton-models/bert_model/1/model.plan</code>
+<code>aws s3 cp bert_model.plan s3://your-bucket-name/triton-models/bert_model/1/model.plan</code>
 
 <code>aws s3 cp config.pbtxt s3://your-bucket-name/triton-models/bert_model/config.pbtxt</code>
 
