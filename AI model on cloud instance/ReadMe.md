@@ -1,5 +1,12 @@
 <h1>Deploying a Simple AI Model on a Cloud GPU instance</h1>
 
+🛠️ **Tech & Skills:** 
+- **Cloud Platforms:** AWS
+- **NVIDIA Tools:** NVIDIA AI Enterprise, GPU Optimization
+- **DevOps:** Docker, Kubernetes
+- **Programming:** Python, REST APIs
+- **MLOps:** Model deployment
+
 **Objective:** 
 
 The idea for this project is to deploy a pre-trained AI model on a GPU-enabled cloud instance (e.g., AWS EC2 with GPU) using Docker. It's a simple but functional deployment to work with GPU instances and Docker for AI workloads. 
