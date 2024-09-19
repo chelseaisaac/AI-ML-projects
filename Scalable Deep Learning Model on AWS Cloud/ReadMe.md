@@ -351,11 +351,11 @@ instance_group [
 ]
 ```
 
-Send your engine and <code>config.pbtxt</code> file from your Docker container to your local EC2 instance. For example, to send the engine, issue this command:
+Send your engine and <code>config.pbtxt</code> file from your Docker container to your local EC2 instance. For example, to send the engine, issue this command (*Use <code>docker ps</code> to find container id.*):
 
 <code>docker cp <container_id>:/workspace/model.plan ./model.plan</code>
 
-(Use <code>docker ps</code> to find container id.)
+
 
 We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 
