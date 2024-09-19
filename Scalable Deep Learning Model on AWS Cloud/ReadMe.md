@@ -272,6 +272,8 @@ print("Model exported to ONNX format")
 
 Now, let's optimize our model for GPU execution with TensorRT.
 
+*A TensorRT engine is a highly optimized, hardware-specific representation of a deep learning model that processed by NVIDIA TensorRT. It converts models from common deep learning frameworks (e.g., PyTorch, TensorFlow, ONNX) into an optimized format that can run efficiently on NVIDIA GPUs.*
+
 This Python script creates a TensorRT engine file named "bert_model.trt".
 
 ```
@@ -283,7 +285,7 @@ def build_engine(onnx_file_path):
     
     with trt.Builder(TRT_LOGGER) as builder, builder.create_builder_config() as config:
         # Configure the builder
-        config.max_workspace_size = 1 << 30  # 1GB
+        config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30)  # 1GB
         config.set_flag(trt.BuilderFlag.FP16)  # Enable FP16 mode if your GPU supports it
         
         # Load the ONNX file
@@ -304,11 +306,11 @@ def build_engine(onnx_file_path):
             profile.set_shape(attention_mask_name, (1, 128), (8, 128), (32, 128))
             config.add_optimization_profile(profile)
             
-            engine = builder.build_engine(network, config)
+            engine = builder.build_serialized_network(network, config)
             
             # Serialize the engine
-            with open("bert_model.trt", "wb") as f:
-                f.write(engine.serialize())
+            with open("bert_model.plan", "wb") as f:
+                f.write(engine)
             
             return engine
 
@@ -322,7 +324,6 @@ else:
     print("Failed to build TensorRT engine")
 ```
 
-*A TensorRT engine is a highly optimized, hardware-specific representation of a deep learning model that processed by NVIDIA TensorRT. It converts models from common deep learning frameworks (e.g., PyTorch, TensorFlow, ONNX) into an optimized format that can run efficiently on NVIDIA GPUs.*
 
 Create a <code>config.pbtxt</code> file:
 
