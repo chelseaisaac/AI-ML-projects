@@ -382,31 +382,30 @@ triton-models/
 # 3. Containerization
 Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
 
-```
-# Use the NGC container with TensorRT 10.4.0
+```# Use the NGC container with TensorRT 10.4.0
 FROM nvcr.io/nvidia/tensorrt:23.12-py3
 
-# Install Triton Inference Server
+# Install dependencies and Triton Inference Server
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    wget \
     software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update \
-    && apt-get install -y python3.10 python3.10-distutils \
-    && curl https://bootstrap.pypa.io/get-pip.py | python3.10 \
+    && wget https://github.com/triton-inference-server/server/releases/download/v2.40.0/tritonserver2.40.0-ubuntu2204.tar.gz \
+    && tar -xzvf tritonserver2.40.0-ubuntu2204.tar.gz -C /opt \
+    && rm tritonserver2.40.0-ubuntu2204.tar.gz \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Triton Inference Server
-RUN wget https://github.com/triton-inference-server/server/releases/download/v2.40.0/tritonserver2.40.0-ubuntu2204.tar.gz \
-    && tar -xzvf tritonserver2.40.0-ubuntu2204.tar.gz -C /opt \
-    && rm tritonserver2.40.0-ubuntu2204.tar.gz
+# Set environment variables for Triton
+ENV PATH="/opt/tritonserver/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/opt/tritonserver/lib:${LD_LIBRARY_PATH}"
 
 # Install additional Python packages
 RUN pip3 install --no-cache-dir \
     transformers \
     torch \
     onnx \
-    pycuda
+    pycuda \
+    tritonclient[all]
 
 # Set up the model repository
 WORKDIR /models
