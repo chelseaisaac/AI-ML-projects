@@ -347,7 +347,7 @@ output [
   {
     name: "output"
     data_type: TYPE_FP32
-    dims: [ 2 ]  # Assuming binary classification; adjust if different
+    dims: [ 2 ]  
   }
 ]
 ```
