@@ -16,12 +16,12 @@ The idea behind this project is to deploy a deep learning model on AWS using clo
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/Using%20the%20tuned%20BERT%20model.png?raw=true)
 
 **Prerequisite:**
-- You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance. I requested 8 vPCUs.
+- You wil need to request a vCPU quota increase in your AWS account in your region. Your limit usually starts at 0 and you need a least 4 to use a GPU-enabled EC2 instance. I requested 24 vPCUs.
 - Create a Docker Hub account
 
 # 1. AWS Cloud Setup
 
-The first thing we have to do is **launch a GPU-enabled EC2 instance on AWS**. I went with an AWS EC2 AMI with GPU support, Deep Learning AMI (Ubuntu) with instance type 'g4dn.xlarge'. Make sure to set the storage size to at least 50 GB. I went with 150 GB. 
+The first thing we have to do is **launch a GPU-enabled EC2 instance on AWS** for our build environment. I went with an AWS EC2 AMI with GPU support, Deep Learning AMI (Ubuntu) with instance type 'g4dn.xlarge'. Make sure to set the storage size to at least 50 GB. I went with 150 GB. 
 
 Once our instance is created, let's connect to it via SSH. We'll need to verify the CUDA and NVIDIA GPU drivers are installed. 
 
@@ -440,8 +440,6 @@ docker tag bert-triton-server:v1 <aws_account_id>.dkr.ecr.<your-region>.amazonaw
 # Push image
 docker push <aws_account_id>.dkr.ecr.<your-region>.amazonaws.com/bert-triton-server:latest
 ```
-
-*At this point, I did not need my EC2 instance and since I am limited in my AWS account to 8 vCPUs (2 g4dn.xlarge instances), I deleted my instance. That way I can successfully create an EKS cluster and node group without hitting my limit.*
 
 # 4. Deploy containerized model to a Kubernetes cluster on AWS
 
