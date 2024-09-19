@@ -353,14 +353,11 @@ Send your engine and <code>config.pbtxt</code> file from your Docker container t
 
 <code>docker cp <container_id>:/workspace/model.plan ./model.plan</code>
 
-
-
 We'll save our TensorRT engine and <code>config.pbtxt</code> to S3:
 
 <code>aws s3 cp bert_model.plan s3://your-bucket-name/triton-models/bert_model/1/model.plan</code>
 
 <code>aws s3 cp config.pbtxt s3://your-bucket-name/triton-models/bert_model/config.pbtxt</code>
-
 
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/3Triton%20model%20in%20EC2.png?raw=true)
 
@@ -373,6 +370,15 @@ triton-models/
     │   └── model.plan
     └── config.pbtxt
 ```
+
+To test the rebuilt engine with Triton, we'll deploy it using the Triton Inference Server:
+
+```
+docker run --rm --gpus all \
+  -v /path/to/your/model/repository:/models \
+  nvcr.io/nvidia/tritonserver:24.08-py3 tritonserver --model-repository=/models
+```
+
 
 # 3. Containerization
 Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
