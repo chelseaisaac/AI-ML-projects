@@ -282,12 +282,15 @@ CMD ["/bin/bash"]
 ```
 
 Build Triton container:
+
 <code>docker build -t my_triton_with_tensorrt_10_4 .</code>
 
-Run container interactively with GPU access
+Run container interactively with GPU access:
+
 <code>docker run --gpus all -it --rm my_triton_with_tensorrt_10_4 bash</code>
 
-Inside container, convert ONXX model to a TensorRT engine
+Inside container, convert ONXX model to a TensorRT engine:
+
 <code>trtexec --onnx=bert_model.onnx --saveEngine=model.plan</code>
 
 Verify the engine: <code>trtexec --loadEngine=model.plan</code>
