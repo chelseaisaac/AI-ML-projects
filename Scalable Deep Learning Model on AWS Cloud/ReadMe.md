@@ -383,7 +383,7 @@ triton-models/
 Now it's time to containerize our model. To do this, we'll create a Docker image with the optimized model, Triton Inference Server, and dependencies. *This Dockerfile assumes that you have your models saved in your local directory in a folder called "triton-models".*
 
 ```
-# Use the official Triton Inference Server container which includes TensorRT
+# Use the latest official Triton Inference Server container which includes TensorRT
 FROM nvcr.io/nvidia/tritonserver:24.08-py3
 
 # Install additional Python packages
