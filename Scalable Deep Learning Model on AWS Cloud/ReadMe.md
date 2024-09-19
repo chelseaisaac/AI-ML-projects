@@ -163,7 +163,7 @@ Upload the directory that contains our model & tokenizer to our S3 bucket:
 
 <code>aws s3 cp ./fine_tuned_bert s3://your-bucket-name/fine_tuned_bert/ --recursive</code>
 
-![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/2Fine%20tuned%20model%20in%20S3%20bucket.png?raw=true)
+<!---![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/2Fine%20tuned%20model%20in%20S3%20bucket.png?raw=true)-->
 
 Now, let's optimize our model for GPU execution using TensorRT. 
 
