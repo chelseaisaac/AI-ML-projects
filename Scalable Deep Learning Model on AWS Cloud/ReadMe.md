@@ -80,54 +80,6 @@ My container does not have a <code>/models</code> directory so I tried starting 
 
 Success! 
 
-Install **RAPIDS for Data Science Workloads**. *It'll give us GPU-accelerated data science libraries.*
-
-<code>docker pull rapidsai/notebooks:24.10a-cuda12.5-py3.11</code>
-
-```
-docker run --gpus all --rm -it \
-    --shm-size=1g --ulimit memlock=-1 \
-    -p 8888:8888 -p 8787:8787 -p 8786:8786 \
-    rapidsai/notebooks:24.10a-cuda12.5-py3.11
-```
-
-Lets install Miniconda. It comes prepackaged with python and other useful tools. 
-
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh
-source ~/.bashrc
-```
-
-Verify installation: 
-
-<code>conda --version</code>
-
-Let's create a new environment for Jupyter notebooks:
-
-<code>conda create -n jupyter_env python=3.8</code>
-
-Activate the environment:
-
-<code>conda activate jupyter_env</code>
-
-Install Jupyter:
-
-<code>conda install jupyter</code>
-
-Launch Jupyter
-
-<code>jupyter notebook --ip 0.0.0.0 --no-browser --port 8888</code>
-
-Navigate to <code>http://(EC2 Public IP):8888/?token=<some_long_string_of_characters></code> in your web browser to access Jupyter. 
-
-![alt text]()
-
-*You'll have to look in the terminal to find the token to access Jupyter.*
-
-<!-- You can use <code>conda deactivate</code> to exit the environment. -->
-
 Install **TensorRT** for inference acceleration. We'll use it to take our deep learning model and make predictions quickly and efficiently. <!-- *TensorRT is an ecosystem of APIs for high-performance deep learning inference.* -->
 
 <code>sudo apt install tensorrt</code>
