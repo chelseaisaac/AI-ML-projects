@@ -300,12 +300,11 @@ Verify the engine:
 <code>trtexec --loadEngine=model.plan</code>
 
 *If you're not able to run the trtexec command, find where it is using* <code>sudo find / -name trtexec</code>
-*Then add the directory containing it to your path:*
+*Then add the directory containing it to your path: *(You can replace the path to whereever your trtexec is located).**
 ```
 echo 'export PATH=$PATH:/usr/src/tensorrt/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
-*(You can replace the path to whereever your trtexec is located).*
 
 Organize the model repository in the container:
 ```
