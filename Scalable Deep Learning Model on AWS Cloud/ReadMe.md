@@ -274,7 +274,7 @@ Now, let's optimize our model for GPU execution with TensorRT.
 
 *A TensorRT engine is a highly optimized, hardware-specific representation of a deep learning model that processed by NVIDIA TensorRT. It converts models from common deep learning frameworks (e.g., PyTorch, TensorFlow, ONNX) into an optimized format that can run efficiently on NVIDIA GPUs.*
 
-This Python script creates a TensorRT engine file named "bert_model.trt".
+This Python script creates a TensorRT engine file named "bert_model.plan".
 
 ```
 import tensorrt as trt
