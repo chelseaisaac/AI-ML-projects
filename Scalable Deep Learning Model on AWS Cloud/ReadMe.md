@@ -157,7 +157,7 @@ I created a folder in my bucket called "fine_tuned_bert".
 
 In order to upload the directory to S3, we'll need to add an IAM role to our EC2 instance that will allow EC2 to accesss S3.
 
-![alt text]()
+![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/1EC2%20IAM%20role%20policy.png?raw=true)
 
 Upload the directory that contains our model & tokenizer to our S3 bucket:
 
