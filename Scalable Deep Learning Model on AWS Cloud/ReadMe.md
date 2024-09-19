@@ -281,28 +281,32 @@ CMD ["/bin/bash"]
 
 ```
 
-Build Triton container:
+Build the Triton container:
 
 <code>docker build -t my_triton_with_tensorrt_10_4 .</code>
 
-Run container interactively with GPU access:
+
+Run the container interactively with GPU access:
 
 <code>docker run --gpus all -it --rm my_triton_with_tensorrt_10_4 bash</code>
+
 
 Inside container, convert ONXX model to a TensorRT engine:
 
 <code>trtexec --onnx=bert_model.onnx --saveEngine=model.plan</code>
 
-Verify the engine: <code>trtexec --loadEngine=model.plan</code>
 
-*If you're not able to run the trtexec command, find where it is:* <code>sudo find / -name trtexec</code>
+Verify the engine: 
 
+<code>trtexec --loadEngine=model.plan</code>
+
+*If you're not able to run the trtexec command, find where it is using* <code>sudo find / -name trtexec</code>
 *Then add the directory containing it to your path:*
 ```
 echo 'export PATH=$PATH:/usr/src/tensorrt/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
-*(You can replace the path to where your trtexec is located).*
+*(You can replace the path to whereever your trtexec is located).*
 
 Organize the model repository in the container:
 ```
