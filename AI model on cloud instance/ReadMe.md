@@ -2,7 +2,7 @@
 
 🛠️ **Tech & Skills:** 
 - **Cloud Platforms:** AWS
-- **NVIDIA Tools:** NVIDIA AI Enterprise, GPU Optimization
+- **NVIDIA Tools:** NVIDIA AI Enterprise
 - **DevOps:** Docker, Kubernetes
 - **Programming:** Python, REST APIs
 - **MLOps:** Model deployment
