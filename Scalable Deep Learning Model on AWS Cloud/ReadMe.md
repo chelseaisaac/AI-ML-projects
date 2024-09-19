@@ -436,7 +436,7 @@ I attached a role with the following policy:
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/7EKS%20cluster%20role.png?raw=true)
 
 Now, let's configure node groups with GPU instances to serve as the worker nodes in our cluster. 
-<---![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/8EKS%20cluster%20nodes.png?raw=true) -->
+<!---![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/8EKS%20cluster%20nodes.png?raw=true) -->
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/8bEKS%20cluster%20nodes%202a.png?raw=true)
 ![alt text](https://github.com/chelseaisaac/AI-ML-projects/blob/main/Scalable%20Deep%20Learning%20Model%20on%20AWS%20Cloud/9EKS%20cluster%20nodes%20-3a.png?raw=true)
 
