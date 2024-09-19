@@ -328,7 +328,7 @@ Create a <code>config.pbtxt</code> file:
 ```
 name: "bert_model"
 platform: "tensorrt_plan"
-max_batch_size: 32
+max_batch_size: 1
 input [
   {
     name: "input_ids"
