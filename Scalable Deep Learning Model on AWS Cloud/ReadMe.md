@@ -68,15 +68,15 @@ Configure node groups with GPU instances to serve as the worker nodes in your cl
 
 Install **NVIDIA Triton Inference Server**. *We'll use it to optimize and serve our machine learning model.*
 
-<code>docker pull nvcr.io/nvidia/tritonserver:22.12-py3</code>
+<code>docker pull nvcr.io/nvidia/tritonserver:23.10-py3</code>
 
 Let's deploy a simple model on Triton Inference Server and run a test inference to validate the setup:
 
-<code>docker run --gpus all -p8000:8000 -p8001:8001 -p8002:8002 nvcr.io/nvidia/tritonserver:22.12-py3</code>
+<code>docker run --gpus all -p8000:8000 -p8001:8001 -p8002:8002 nvcr.io/nvidia/tritonserver:23.10-py3</code>
 
 My container does not have a <code>/models</code> directory so I tried starting the server with a flag pointing to an empty directory. 
 
-<code>docker run --gpus all -p8000:8000 -p8001:8001 -p8002:8002 nvcr.io/nvidia/tritonserver:22.12-py3 tritonserver --model-repository=/tmp</code>
+<code>docker run --gpus all -p8000:8000 -p8001:8001 -p8002:8002 nvcr.io/nvidia/tritonserver:23.10-py3 tritonserver --model-repository=/tmp</code>
 
 Success! 
 
