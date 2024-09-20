@@ -477,6 +477,7 @@ kind: Service
 metadata:
   name: triton-service
 spec:
+  type: LoadBalancer
   selector:
     app: triton-server
   ports:
