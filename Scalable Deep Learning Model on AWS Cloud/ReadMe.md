@@ -614,6 +614,7 @@ except Exception as e:
 ```
 
 Here's the output we get:
+
 Input IDs: [[1]]
 
 Attention Mask: [[1]]
