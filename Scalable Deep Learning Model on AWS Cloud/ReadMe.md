@@ -615,10 +615,15 @@ except Exception as e:
 
 Here's the output we get:
 Input IDs: [[1]]
+
 Attention Mask: [[1]]
+
 Raw output: [[-2.5691175  1.7277087]]
+
 Probabilities: [0.0134289  0.98657113]
+
 Predicted sentiment: Positive
+
 Confidence: 0.9866
 
 This means that the model is very confident (98.66% sure) that the input text was positive!
