@@ -556,6 +556,10 @@ Here's a Python example using the Triton client library:
 import tritonclient.http as httpclient
 import numpy as np
 
+def softmax(x):
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum(axis=0)
+
 try:
     # Initialize the Triton HTTP client (remove the 'http://' prefix)
     client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")  # No 'http://'
@@ -587,8 +591,28 @@ try:
 
     # Get the output as a numpy array
     output = results.as_numpy("output")
-    print(output)
+
+    # Apply softmax to get probabilities
+    probabilities = softmax(output[0])
+
+    # Map to sentiment labels
+    sentiments = ['Negative', 'Positive']
+    predicted_sentiment = sentiments[np.argmax(probabilities)]
+    confidence = np.max(probabilities)
+
+    print(f"Raw output: {output}")
+    print(f"Probabilities: {probabilities}")
+    print(f"Predicted sentiment: {predicted_sentiment}")
+    print(f"Confidence: {confidence:.4f}")
 
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
+
+Here's the output we get:
+Raw output: [[-2.5691175  1.7277087]]
+Probabilities: [0.0134289  0.98657113]
+Predicted sentiment: Positive
+Confidence: 0.9866
+
+This means that the model is very confident (98.66% sure) that the input text was positive!
