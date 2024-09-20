@@ -573,6 +573,10 @@ try:
     input_ids = np.array([[1]], dtype=np.int64)  # Example input_ids
     attention_mask = np.array([[1]], dtype=np.int64)  # Example attention_mask
 
+    # Print the input data
+    print(f"Input IDs: {input_ids}")
+    print(f"Attention Mask: {attention_mask}")
+
     # Create the input tensors
     inputs = [
         httpclient.InferInput("input_ids", input_ids.shape, "INT64"),  # input_ids tensor
@@ -610,6 +614,8 @@ except Exception as e:
 ```
 
 Here's the output we get:
+Input IDs: [[1]]
+Attention Mask: [[1]]
 Raw output: [[-2.5691175  1.7277087]]
 Probabilities: [0.0134289  0.98657113]
 Predicted sentiment: Positive
