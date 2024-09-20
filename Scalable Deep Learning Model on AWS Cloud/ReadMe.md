@@ -316,31 +316,27 @@ Create a <code>config.pbtxt</code> file:
 
 ```
 name: "bert_model"
-platform: "tensorrt_plan"
-max_batch_size: 1
+backend: "tensorrt"
+max_batch_size: 1  # Model expects batch size of 1
 input [
   {
     name: "input_ids"
     data_type: TYPE_INT64
-    dims: [ -1 ]
+    dims: [ 1 ]  # Fixed sequence length of 1 (as per the model's expectation)
   },
   {
     name: "attention_mask"
     data_type: TYPE_INT64
-    dims: [ -1 ]
+    dims: [ 1 ]  # Fixed sequence length of 1
   }
 ]
 output [
   {
     name: "output"
     data_type: TYPE_FP32
-    dims: [ 2 ]
+    dims: [ 2 ]  # Adjust based on your model's output shape
   }
 ]
-dynamic_batching {
-  preferred_batch_size: [ 1 ]
-  max_queue_delay_microseconds: 100
-}
 instance_group [
   {
     count: 1
