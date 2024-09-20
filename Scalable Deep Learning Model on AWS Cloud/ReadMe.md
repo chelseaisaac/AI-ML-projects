@@ -557,27 +557,36 @@ import tritonclient.http as httpclient
 import numpy as np
 
 try:
-    client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")
+    # Initialize the Triton HTTP client (remove the 'http://' prefix)
+    client = httpclient.InferenceServerClient(url="your-triton-service-url:8000")  # No 'http://'
     
+    # Check if the server is ready
     if not client.is_server_ready():
         print("Server is not ready")
         exit(1)
 
-    # Prepare your input data
-    input_data = np.array([[1.0, 2.0, 3.0, 4.0]], dtype=np.float32)
+    # Prepare your input data (shape: [1, 1], dtype: int64)
+    input_ids = np.array([[1]], dtype=np.int64)  # Example input_ids
+    attention_mask = np.array([[1]], dtype=np.int64)  # Example attention_mask
 
-    # Create the input tensor
-    inputs = [httpclient.InferInput("input_name", input_data.shape, "FP32")]
-    inputs[0].set_data_from_numpy(input_data)
+    # Create the input tensors
+    inputs = [
+        httpclient.InferInput("input_ids", input_ids.shape, "INT64"),  # input_ids tensor
+        httpclient.InferInput("attention_mask", attention_mask.shape, "INT64")  # attention_mask tensor
+    ]
+    
+    # Set the data for the input tensors
+    inputs[0].set_data_from_numpy(input_ids)
+    inputs[1].set_data_from_numpy(attention_mask)
 
-    # Specify the output
-    outputs = [httpclient.InferRequestedOutput("output_name")]
+    # Specify the output (adjust based on your model's output tensor name)
+    outputs = [httpclient.InferRequestedOutput("output")]
 
-    # Send inference request
-    results = client.infer("your_model_name", inputs, outputs=outputs)
+    # Send the inference request
+    results = client.infer("bert_model", inputs, outputs=outputs)
 
-    # Get the output
-    output = results.as_numpy("output_name")
+    # Get the output as a numpy array
+    output = results.as_numpy("output")
     print(output)
 
 except Exception as e:
