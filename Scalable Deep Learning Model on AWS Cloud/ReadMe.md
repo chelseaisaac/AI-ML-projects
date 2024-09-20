@@ -375,8 +375,10 @@ To test the rebuilt engine with Triton, we'll deploy it using the Triton Inferen
 
 ```
 docker run --rm --gpus all \
-  -v /path/to/your/model/repository:/models \
-  nvcr.io/nvidia/tritonserver:24.08-py3 tritonserver --model-repository=/models
+    -v /path/to/your/model/repository:/models \
+    -p 8000:8000 -p 8001:8001 -p 8002:8002 \
+    nvcr.io/nvidia/tritonserver:24.08-py3 tritonserver --model-repository=/models
+
 ```
 
 
